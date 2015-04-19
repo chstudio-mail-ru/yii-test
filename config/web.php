@@ -37,8 +37,12 @@ $config = [
                 ],
             ],
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => false,
+        ],
         'db' => require(__DIR__ . '/db.php'),
     ],
+    'language' => 'ru-RU',
     'params' => $params,
 ];
 

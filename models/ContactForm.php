@@ -1,4 +1,6 @@
 <?php
+//removed
+die;
 
 namespace app\models;
 
