@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = 'My Yii Application';
+//http://forum.ru-board.com/topic.cgi?forum=31&topic=19256
+$this->title = 'Тестовое задание';
 ?>
 <div class="site-index">
 
