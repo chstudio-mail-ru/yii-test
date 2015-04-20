@@ -23,12 +23,12 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            // useremail and password are both required
+            // useremail, passwor, password_repeat and username are all required
             [['useremail', 'password', 'password_repeat', 'username'], 'required'],
             // useremail should be a valid email address
             ['useremail', 'email'],
             // useremail is validated by validateuseremail()
-            ['useremail', 'validateuseremail'],
+            ['useremail', 'validateUseremail'],
             // password_repeat === password 
             ['password_repeat', 'compare', 'compareAttribute' => 'password'],
         ];
@@ -41,7 +41,7 @@ class RegisterForm extends Model
      * @param string $attribute the attribute currently being validated
      * @param array $params the additional name-value pairs given in the rule
      */
-    public function validateuseremail($attribute, $params)
+    public function validateUseremail($attribute, $params)
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();

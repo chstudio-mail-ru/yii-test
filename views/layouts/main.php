@@ -36,7 +36,7 @@ AppAsset::register($this);
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => 'Галерея', 'url' => ['/site/index']],
-                    ['label' => 'Редактор изображений', 'url' => ['/site/editor']],
+                    ['label' => 'Редактор рисунков', 'url' => ['/site/editor']],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Вход', 'url' => ['/site/login']] :
                         ['label' => 'Выход (' . Yii::$app->user->identity->username . ')',

@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\RegisterForm */
 
-$this->title = 'Редактор изображений';
+$this->title = 'Редактор рисунков';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
