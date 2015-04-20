@@ -46,6 +46,7 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+
     }
 
     public function actionIndex()
@@ -102,16 +103,14 @@ class SiteController extends Controller
     {
 
         $model = new RegisterForm();
-        if ($model->load(Yii::$app->request->post()) && $model->register()) {
-            return $this->goBack();
+
+        if ($model->load(Yii::$app->request->post()) && 
+            $model->register()) {
+            return $this->goHome();
         } else {
             return $this->render('editor', [
                 'model' => $model,
             ]);
         }
-   
-        return $this->render('editor', [
-                'model' => $model,
-            ]);
     }
 }

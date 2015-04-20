@@ -32,14 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?php
 	        if(Yii::$app->user->isGuest)
 	        {
-				echo Html::submitButton('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "registration();"]);
+				echo Html::submitButton('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "canvasSave();"]);
 				?>
 				<div class="register-fields">
 				<?php
-    			echo $form->field($model, 'username');
+    			echo $form->field($model, 'useremail');
     			echo $form->field($model, 'password')->passwordInput();
     			echo $form->field($model, 'password_repeat')->passwordInput();
-				echo $form->field($model, 'name');    			
+				echo $form->field($model, 'username');    			
 				?>
 				</div>
 				<?php
@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	        else
 	        {
 
-				echo Html::button('Сохранить', ['class' => 'btn btn-primary', 'name' => 'save-button', 'onClick' => "canvasSave();"]);
+				echo Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'save-button', 'onClick' => "canvasSave();"]);
 	        }
 		?>
     </div>

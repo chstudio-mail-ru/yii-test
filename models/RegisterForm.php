@@ -10,15 +10,12 @@ use yii\base\Model;
  */
 class RegisterForm extends Model
 {
-    public $username;
+    public $useremail;
     public $password;
     public $password_repeat;
-    public $name;
-    //public $rememberMe = true;
+    public $username;
 
-    private $_userExists = false;
     private $_user = false;
-
 
     /**
      * @return array the validation rules.
@@ -26,68 +23,72 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
-            [['username', 'password', 'password_repeat'], 'required'],
-            // username should be a valid email address
-            ['username', 'email'],
-            // username is validated by validateUsername()
-            ['username', 'validateUsername'],
+            // useremail and password are both required
+            [['useremail', 'password', 'password_repeat', 'username'], 'required'],
+            // useremail should be a valid email address
+            ['useremail', 'email'],
+            // useremail is validated by validateuseremail()
+            ['useremail', 'validateuseremail'],
             // password_repeat === password 
             ['password_repeat', 'compare', 'compareAttribute' => 'password'],
         ];
     }
 
     /**
-     * Validates the username.
+     * Validates the useremail.
      * This method serves as the inline validation for existing user.
      *
      * @param string $attribute the attribute currently being validated
      * @param array $params the additional name-value pairs given in the rule
      */
-    public function validateUsername($attribute, $params)
+    public function validateuseremail($attribute, $params)
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
             if ($user) {
-                $this->_userExists = true;
-                $this->_user = false;
-                $this->addError($attribute, 'Пользователь с логином '.$this->username.' уже существует.');
+                $this->addError($attribute, 'Пользователь с логином '.$this->useremail.' уже существует.');
             }
         }
     }
 
     /**
-     * Finds user by [[username]]
+     * Finds user by [[useremail]]
      *
      * @return User|null
      */
     private function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByusername($this->useremail);
         }
 
         return $this->_user;
+        /*$user = User::findByuseremail($this->useremail);
+        
+        return $user;*/
     }
 
 
     public function attributeLabels()
     {
         return [
-            'username' => 'E-mail',
+            'useremail' => 'E-mail',
             'password' => 'Пароль',
             'password_repeat' => 'Повтор',
-            'name'  => 'Имя',
+            'username'  => 'Имя',
         ];
     }
 
     public function register()
     {
         if ($this->validate()) {
-            if($this->getUser() !== null)
-            {
-               return Yii::$app->user->login($this->getUser(), 0);
+            if($this->getUser() !== null) {
+               $this->useremail = null;
+               $this->password = null;
+               $this->password_repeat = null;
+               $this->username = null;
+               return Yii::$app->user->login($this->getUser(), 3600*24*30);
             }
         } else {
             return false;
