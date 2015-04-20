@@ -12,6 +12,7 @@ class RegisterForm extends Model
 {
     public $username;
     public $password;
+    public $password_repeat;
     public $name;
     //public $rememberMe = true;
 
@@ -26,11 +27,13 @@ class RegisterForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['username', 'password', 'password_repeat'], 'required'],
             // username should be a valid email address
             ['username', 'email'],
-            // password is validated by validatePassword()
-            ['password', 'validateUsername'],
+            // username is validated by validateUsername()
+            ['username', 'validateUsername'],
+            // password_repeat === password 
+            ['password_repeat', 'compare', 'compareAttribute' => 'password'],
         ];
     }
 
@@ -74,6 +77,7 @@ class RegisterForm extends Model
         return [
             'username' => 'E-mail',
             'password' => 'Пароль',
+            'password_repeat' => 'Повтор',
             'name'  => 'Имя',
         ];
     }
@@ -89,5 +93,4 @@ class RegisterForm extends Model
             return false;
         }
     }
-
 }

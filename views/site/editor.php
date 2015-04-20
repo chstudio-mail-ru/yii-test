@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
 <div class="form-group">
-    <div class="col-lg-offset-1 col-lg-11">
+    <div class="col-lg-offset-0 col-lg-11">
 	    <?= Html::button('Очистить', ['class' => 'btn btn-primary', 'name' => 'clear-button', 'onClick' => "canvasClear();"]) ?>
 		<?php
 	        if(Yii::$app->user->isGuest)
@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				<?php
     			echo $form->field($model, 'username');
     			echo $form->field($model, 'password')->passwordInput();
+    			echo $form->field($model, 'password_repeat')->passwordInput();
 				echo $form->field($model, 'name');    			
 				?>
 				</div>
