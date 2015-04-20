@@ -7,7 +7,8 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\RegisterForm;
+//use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -99,6 +100,10 @@ class SiteController extends Controller
     //added
     public function actionEditor()
     {
-        return $this->render('editor');
+
+        $model = new RegisterForm();
+        return $this->render('editor', [
+                'model' => $model,
+            ]);
     }
 }

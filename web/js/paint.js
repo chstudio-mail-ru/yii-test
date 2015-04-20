@@ -8,7 +8,7 @@ if(window.addEventListener) {
         canvas = document.getElementById('imageView');
 
         if (!canvas) {
-            alert('Ошибка! Canvas элемент не найден!');
+            //нет canvas элемента
             return;
         }
 
@@ -20,7 +20,7 @@ if(window.addEventListener) {
         // Получаем 2D canvas context.
         context = canvas.getContext('2d');
         if (!context) {
-            alert('Ошибка: getContext! не существует');
+            alert('Ошибка: getContext(\'2d\')! не существует');
             return;
         }
 
@@ -35,7 +35,7 @@ if(window.addEventListener) {
         var tool = this;
         this.started = false;
 
-
+        //Событие при нажатии кнопки мыши
         this.mousedown = function (ev) {
             context.beginPath();
             context.moveTo(ev._x, ev._y);
@@ -46,9 +46,15 @@ if(window.addEventListener) {
         // Но рисование происходит только когда вы удерживаете кнопку мыши
         // нажатой.
         this.mousemove = function (ev) {
-            if (tool.started) {
-                context.lineTo(ev._x, ev._y);
-                context.stroke();
+            if (tool.started) { //если кнопка нажата
+                //если в пределах прямоугольника - рисуем
+                if(ev._x > 0 && ev._y > 0 && ev._x < canvas.width && ev._y < canvas.height) {
+                    context.lineTo(ev._x, ev._y);
+                    context.stroke();
+                }
+                else {  //при выходе за пределы прямоугольника - автоматически отпускаем кнопку
+                    tool.started = false;    
+                }
             }
         };
 
@@ -81,3 +87,30 @@ if(window.addEventListener) {
     init();
 
 }, false); }
+
+    //очистка прямоугольника
+    function canvasClear() {
+        // Находим canvas элемент
+        canvas = document.getElementById('imageView');
+
+        if (!canvas) {
+            //нет canvas элемента
+            return;
+        }
+
+        if (!canvas.getContext) {
+            alert('Ошибка: canvas.getContext не существует!');
+            return;
+        }
+
+        // Получаем 2D canvas context.
+        context = canvas.getContext('2d');
+        if (!context) {
+            alert('Ошибка: getContext(\'2d\')! не существует');
+            return;
+        }
+
+        //console.log(context);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+

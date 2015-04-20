@@ -1,7 +1,12 @@
 <?php
 use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+
 /* @var $this yii\web\View */
-$this->title = 'Нарисуйте изображение';
+/* @var $form yii\bootstrap\ActiveForm */
+/* @var $model app\models\RegisterForm */
+
+$this->title = 'Редактор изображений';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -11,3 +16,35 @@ $this->params['breadcrumbs'][] = $this->title;
     Ваш браузер не поддерживает рисование мышью.
 </p>
 </canvas>
+
+    <?php $form = ActiveForm::begin([
+        'id' => 'register-form',
+        'options' => ['class' => 'form-horizontal'],
+        'fieldConfig' => [
+            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+            'labelOptions' => ['class' => 'col-lg-1 control-label'],
+        ],
+    ]); ?>
+
+<div class="form-group">
+    <div class="col-lg-offset-1 col-lg-11">
+	    <?= Html::button('Очистить', ['class' => 'btn btn-primary', 'name' => 'clear-button', 'onClick' => "canvasClear();"]) ?>
+		<?php
+	        if(Yii::$app->user->isGuest)
+	        {
+				echo Html::button('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "registration();"]);
+    			echo '<p></p>';
+    			echo $form->field($model, 'username');
+    			echo $form->field($model, 'password')->passwordInput();
+				echo $form->field($model, 'name');    			
+	        }
+	        else
+	        {
+
+				echo Html::button('Сохранить', ['class' => 'btn btn-primary', 'name' => 'save-button', 'onClick' => "canvasSave();"]);
+	        }
+		?>
+    </div>
+</div>
+
+    <?php ActiveForm::end(); ?>
