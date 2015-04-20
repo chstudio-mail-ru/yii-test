@@ -6,15 +6,16 @@ use Yii;
 use yii\base\Model;
 
 /**
- * RegisterForm is the model behind the login form.
+ * RegisterForm is the model behind the register form under paint rectangle.
  */
 class RegisterForm extends Model
 {
     public $username;
     public $password;
     public $name;
-    public $rememberMe = true;
+    //public $rememberMe = true;
 
+    private $_userExists = false;
     private $_user = false;
 
 
@@ -26,15 +27,16 @@ class RegisterForm extends Model
         return [
             // username and password are both required
             [['username', 'password'], 'required'],
+            // username should be a valid email address
             ['username', 'email'],
-            // username is validated by validateUsername()
-            ['username', 'validateUsername'],
+            // password is validated by validatePassword()
+            ['password', 'validateUsername'],
         ];
     }
 
     /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
+     * Validates the username.
+     * This method serves as the inline validation for existing user.
      *
      * @param string $attribute the attribute currently being validated
      * @param array $params the additional name-value pairs given in the rule
@@ -45,6 +47,8 @@ class RegisterForm extends Model
             $user = $this->getUser();
 
             if ($user) {
+                $this->_userExists = true;
+                $this->_user = false;
                 $this->addError($attribute, 'Пользователь с логином '.$this->username.' уже существует.');
             }
         }
@@ -73,4 +77,17 @@ class RegisterForm extends Model
             'name'  => 'Имя',
         ];
     }
+
+    public function register()
+    {
+        if ($this->validate()) {
+            if($this->getUser() !== null)
+            {
+               return Yii::$app->user->login($this->getUser(), 0);
+            }
+        } else {
+            return false;
+        }
+    }
+
 }

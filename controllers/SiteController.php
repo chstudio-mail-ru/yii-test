@@ -102,6 +102,14 @@ class SiteController extends Controller
     {
 
         $model = new RegisterForm();
+        if ($model->load(Yii::$app->request->post()) && $model->register()) {
+            return $this->goBack();
+        } else {
+            return $this->render('editor', [
+                'model' => $model,
+            ]);
+        }
+   
         return $this->render('editor', [
                 'model' => $model,
             ]);

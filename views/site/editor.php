@@ -32,11 +32,16 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?php
 	        if(Yii::$app->user->isGuest)
 	        {
-				echo Html::button('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "registration();"]);
-    			echo '<p></p>';
+				echo Html::submitButton('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "registration();"]);
+				?>
+				<div class="register-fields">
+				<?php
     			echo $form->field($model, 'username');
     			echo $form->field($model, 'password')->passwordInput();
 				echo $form->field($model, 'name');    			
+				?>
+				</div>
+				<?php
 	        }
 	        else
 	        {

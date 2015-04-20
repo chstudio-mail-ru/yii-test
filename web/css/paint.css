@@ -1,3 +1,4 @@
 #container { position: relative; }
 #imageView { border: 1px solid #000; }
 #register-form { margin-top: 15px; }
+.register-fields { padding-top: 15px; }
