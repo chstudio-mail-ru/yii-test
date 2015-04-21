@@ -84,8 +84,9 @@ class RegisterForm extends Model
     {
         if ($this->validate()) {
             if($this->getUser() === null) {
-                User::addUser($this->useremail, $this->username, $this->password);
-               //return Yii::$app->user->login($this->getUser(), 3600*24*30);
+                $user = User::addUser($this->useremail, $this->username, $this->password);
+                Yii::$app->user->login($user, 0);
+                return true;
             }
         } else {
             return false;
