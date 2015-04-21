@@ -60,7 +60,7 @@ class RegisterForm extends Model
     private function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByusername($this->useremail);
+            $this->_user = User::findByuseremail($this->useremail);
         }
 
         return $this->_user;
@@ -83,12 +83,9 @@ class RegisterForm extends Model
     public function register()
     {
         if ($this->validate()) {
-            if($this->getUser() !== null) {
-               $this->useremail = null;
-               $this->password = null;
-               $this->password_repeat = null;
-               $this->username = null;
-               return Yii::$app->user->login($this->getUser(), 3600*24*30);
+            if($this->getUser() === null) {
+                User::addUser($this->useremail, $this->username, $this->password);
+               //return Yii::$app->user->login($this->getUser(), 3600*24*30);
             }
         } else {
             return false;

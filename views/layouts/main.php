@@ -39,7 +39,7 @@ AppAsset::register($this);
                     ['label' => 'Редактор рисунков', 'url' => ['/site/editor']],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Вход', 'url' => ['/site/login']] :
-                        ['label' => 'Выход (' . Yii::$app->user->identity->username . ')',
+                        ['label' => 'Выход (' . Yii::$app->user->identity->useremail . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
                 ],

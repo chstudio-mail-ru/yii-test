@@ -41,10 +41,10 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'captcha' => [
+            /*'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
+            ],*/
         ];
 
     }
@@ -104,8 +104,7 @@ class SiteController extends Controller
 
         $model = new RegisterForm();
 
-        if ($model->load(Yii::$app->request->post()) && 
-            $model->register()) {
+        if ($model->load(Yii::$app->request->post()) && $model->register()) {
             return $this->goHome();
         } else {
             return $this->render('editor', [
