@@ -72,7 +72,7 @@ class SiteController extends Controller
 
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        \Yii::$app->user->logout();
 
         return $this->goHome();
     }
@@ -101,10 +101,14 @@ class SiteController extends Controller
     //added
     public function actionEditor()
     {
+        //was pressed Save button
+        if(isset($_POST['save-button'])) {
+            return $this->goHome();
+        }
 
         $model = new RegisterForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->register()) {
+        if($model->load(\Yii::$app->request->post()) && $model->register()) {
             return $this->goHome();
         } else {
             return $this->render('editor', [

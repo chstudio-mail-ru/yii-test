@@ -64,12 +64,13 @@ class RegisterForm extends Model
         }
 
         return $this->_user;
-        /*$user = User::findByuseremail($this->useremail);
-        
-        return $user;*/
     }
 
-
+    /**
+     * Labels for registrayion form
+     *
+     * @return array of field labels
+     */
     public function attributeLabels()
     {
         return [
@@ -80,15 +81,25 @@ class RegisterForm extends Model
         ];
     }
 
+    /**
+     * Registration new User
+     *
+     * @return boolean
+     */
     public function register()
     {
-        if ($this->validate()) {
-            if($this->getUser() === null) {
+        if ($this->validate())
+        {
+            if($this->getUser() === null)
+            {
                 $user = User::addUser($this->useremail, $this->username, $this->password);
-                Yii::$app->user->login($user, 0);
+                //new user login
+                \Yii::$app->user->login($user, 0);
                 return true;
             }
-        } else {
+        } 
+        else
+        {
             return false;
         }
     }

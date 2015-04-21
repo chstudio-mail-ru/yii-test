@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-lg-offset-0 col-lg-11">
 	    <?= Html::button('Очистить', ['class' => 'btn btn-primary', 'name' => 'clear-button', 'onClick' => "canvasClear();"]) ?>
 		<?php
-	        if(Yii::$app->user->isGuest)
+	        if(\Yii::$app->user->isGuest)
 	        {
 				echo Html::submitButton('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "canvasSave();"]);
 				?>
