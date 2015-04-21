@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 //http://forum.ru-board.com/topic.cgi?forum=31&topic=19256
-$this->title = 'Тестовое задание';
+$this->title = 'Галерея';
 ?>
 <div class="site-index">
 
