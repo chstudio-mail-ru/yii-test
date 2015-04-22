@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\RegisterForm;
+use app\models\Save;
 //use app\models\ContactForm;
 
 class SiteController extends Controller
@@ -115,5 +116,11 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionSave()
+    {
+        $model = new \app\models\Save();
+        $model->save();
     }
 }

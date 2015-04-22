@@ -67,7 +67,7 @@ class RegisterForm extends Model
     }
 
     /**
-     * Labels for registrayion form
+     * Labels for registration form
      *
      * @return array of field labels
      */

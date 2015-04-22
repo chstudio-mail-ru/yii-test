@@ -173,8 +173,8 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         //$connection->createCommand()->update('user', ['status' => 1], 'age > 30')->execute();
         $command = $connection->createCommand()
                                     ->update('user_list', [
-                                        'authKey' => md5('test'.$id.'key'),
-                                        'accessToken' => md5('test'.$id.'-token'),
+                                        'authKey' => md5('test-'.$id.'-key'),
+                                        'accessToken' => md5('test-'.$id.'-token'),
                                     ], 'id='.$id);
         $command->execute();
 
@@ -183,8 +183,8 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
                     'useremail' => $useremail,
                     'username' => $username,
                     'password' => md5($password),
-                    'authKey' => md5('test'.$id.'key'),
-                    'accessToken' => md5('test'.$id.'-token'),
+                    'authKey' => md5('test-'.$id.'-key'),
+                    'accessToken' => md5('test-'.$id.'-token'),
                     'registerTime' => time(),  //date("Y-m-d H:i:s", time()),
                 ];
         return new static($arr);

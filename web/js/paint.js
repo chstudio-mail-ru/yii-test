@@ -38,7 +38,15 @@ if(window.addEventListener) {
         //Событие при нажатии кнопки мыши
         this.mousedown = function (ev) {
             context.beginPath();
-            context.moveTo(ev._x, ev._y);
+            //в firefox нужно отнимать от координат координаты этого canvas
+            if(ev.offsetX==undefined && (ev.layerX || ev.layerX == 0))
+            {
+                context.moveTo(ev._x - canvas.offsetLeft, ev._y - canvas.offsetTop);
+            }
+            else    
+            {
+                context.moveTo(ev._x, ev._y);
+            }
             tool.started = true;
         };
 
@@ -47,12 +55,28 @@ if(window.addEventListener) {
         // нажатой.
         this.mousemove = function (ev) {
             if (tool.started) { //если кнопка нажата
-                //если в пределах прямоугольника - рисуем
-                if(ev._x > 0 && ev._y > 0 && ev._x < canvas.width && ev._y < canvas.height) {
+                //в firefox нужно отнимать от координат координаты этого canvas
+                if(ev.offsetX==undefined && (ev.layerX || ev.layerX == 0))
+                {
+                    //если в пределах прямоугольника - рисуем (прибавляем canvas.offsetLeft и canvas.offsetTop)    
+                    if(ev._x > (0 + canvas.offsetLeft) && ev._y > (0 + canvas.offsetTop) && ev._x < (canvas.width + canvas.offsetLeft) && ev._y < (canvas.height + canvas.offsetTop))
+                    {
+                        context.lineTo(ev._x - canvas.offsetLeft, ev._y - canvas.offsetTop);
+                        context.stroke();
+                    }
+                    else
+                    {  //при выходе за пределы прямоугольника - автоматически отпускаем кнопку
+                        tool.started = false;    
+                    }
+                }
+                //иначе просто проверяем координаты - в canvas или нет, если да - рисуем
+                else if(ev._x > 0 && ev._y > 0 && ev._x < canvas.width && ev._y < canvas.height)
+                {   
                     context.lineTo(ev._x, ev._y);
                     context.stroke();
                 }
-                else {  //при выходе за пределы прямоугольника - автоматически отпускаем кнопку
+                else
+                {  //при выходе за пределы прямоугольника - автоматически отпускаем кнопку
                     tool.started = false;    
                 }
             }
@@ -112,5 +136,40 @@ if(window.addEventListener) {
 
         //console.log(context);
         context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    //Сохранение картинки
+    function canvasSave() {
+        // Находим canvas элемент
+        canvas = document.getElementById('imageView');
+
+        if (!canvas) {
+            //нет canvas элемента
+            return;
+        }
+
+        if (!canvas.getContext) {
+            alert('Ошибка: canvas.getContext не существует!');
+            return;
+        }
+
+        // Получаем 2D canvas context.
+        context = canvas.getContext('2d');
+        if (!context) {
+            alert('Ошибка: getContext(\'2d\')! не существует');
+            return;
+        }
+
+        img = canvas.toDataURL("image/png");
+
+        //сохраняем
+        $.ajax({
+            url: '/index.php/site/save/',
+            type: 'POST',
+            data: {'data': img},
+            success: function(data) {
+                //alert(data);
+            }
+        });
     }
 

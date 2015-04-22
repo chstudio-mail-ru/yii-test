@@ -32,6 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?php
 	        if(\Yii::$app->user->isGuest)
 	        {
+	        	$file_name = session_id().".png";
+
 				echo Html::submitButton('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "canvasSave();"]);
 				?>
 				<div class="register-fields">
@@ -43,9 +45,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				?>
 				</div>
 				<?php
+
 	        }
 	        else
 	        {
+	        	$file_name = session_id().".png";
 
 				echo Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'save-button', 'onClick' => "canvasSave();"]);
 	        }
