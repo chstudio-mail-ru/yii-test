@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-lg-offset-0 col-lg-11">
 	    <?= Html::button('Очистить', ['class' => 'btn btn-primary', 'name' => 'clear-button', 'onClick' => "canvasClear();"]) ?>
 		<?php
-        	$file_name = session_id().".png";
 	        if(!\Yii::$app->user->isGuest)
 	        {
 	        	$user_id = \Yii::$app->user->id;
@@ -38,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	        if(\Yii::$app->user->isGuest)
 	        {
-				echo Html::submitButton('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "canvasSave('".$file_name."');"]);
+				echo Html::submitButton('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "canvasSave(0);"]);
 				?>
 				<div class="register-fields">
 				<?php
@@ -52,7 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
 	        }
 	        else
 	        {
-				echo Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'save-button', 'onClick' => "canvasSave('".$file_name."','".$user_id."');"]);
+	        	$file_name = $user_id."-".\Yii::$app->getSecurity()->generateRandomString().".png";
+				echo Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'save-button', 'onClick' => "canvasSave(".$user_id.");"]);
 	        }
 		?>
     </div>

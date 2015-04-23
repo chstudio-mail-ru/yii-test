@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\base\Model;
+use app\models\Save;
 
 /**
  * RegisterForm is the model behind the register form under paint rectangle.
@@ -94,6 +95,11 @@ class RegisterForm extends Model
                 $user = User::addUser($this->useremail, $this->username, $this->password);
                 //new user login
                 \Yii::$app->user->login($user, 0);
+
+                //save picture and rename file picture after registration and authentication
+                $save = new Save();
+                $save->set_author_picture();
+
                 return true;
             }
         } 

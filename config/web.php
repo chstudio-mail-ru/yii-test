@@ -18,6 +18,11 @@ $config = [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
+        'session' => [
+            'class' => 'yii\web\DbSession',
+            // 'db' => 'mydb',
+            // 'sessionTable' => 'my_session',
+        ],        
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

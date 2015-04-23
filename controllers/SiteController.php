@@ -103,7 +103,7 @@ class SiteController extends Controller
     public function actionEditor()
     {
         //was pressed Save button
-        if(isset($_POST['save-button'])) {
+        if(isset(\Yii::$app->request->post()['save-button'])) {
             return $this->goHome();
         }
 
@@ -118,9 +118,10 @@ class SiteController extends Controller
         }
     }
 
+    //save picture action
     public function actionSave()
     {
-        $model = new \app\models\Save();
-        $model->save();
+        $model = new Save();
+        $model->save(\Yii::$app->request->post()['user_id']);
     }
 }

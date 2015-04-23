@@ -139,7 +139,7 @@ if(window.addEventListener) {
     }
 
     //Сохранение картинки
-    function canvasSave(name, user_id) {
+    function canvasSave(user_id) {
         // Находим canvas элемент
         canvas = document.getElementById('imageView');
 
@@ -166,7 +166,7 @@ if(window.addEventListener) {
         $.ajax({
             url: '/index.php/site/save/',
             type: 'POST',
-            data: {'data': img, 'name': name, 'user_id': user_id},
+            data: {'data': img, 'user_id': user_id},
             success: function(data) {
                 //alert(data);
             }
