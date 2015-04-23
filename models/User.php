@@ -1,8 +1,12 @@
 <?php
 
 namespace app\models;
+
 use yii\db\Query;
 
+/**
+ * User class for athenticated users.
+ */
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
     public $id;
@@ -170,11 +174,13 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         $command->execute();
         $id = $connection->getLastInsertID();
 
-        //$connection->createCommand()->update('user', ['status' => 1], 'age > 30')->execute();
+        $authKey = \Yii::$app->getSecurity()->generateRandomString();
+        $accessToken = \Yii::$app->getSecurity()->generateRandomString();
+
         $command = $connection->createCommand()
                                     ->update('user_list', [
-                                        'authKey' => md5('test-'.$id.'-key'),
-                                        'accessToken' => md5('test-'.$id.'-token'),
+                                        'authKey' => $authKey,
+                                        'accessToken' => $accessToken,
                                     ], 'id='.$id);
         $command->execute();
 
@@ -183,8 +189,8 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
                     'useremail' => $useremail,
                     'username' => $username,
                     'password' => md5($password),
-                    'authKey' => md5('test-'.$id.'-key'),
-                    'accessToken' => md5('test-'.$id.'-token'),
+                    'authKey' => $authKey,
+                    'accessToken' => $accessToken,
                     'registerTime' => time(),  //date("Y-m-d H:i:s", time()),
                 ];
         return new static($arr);
