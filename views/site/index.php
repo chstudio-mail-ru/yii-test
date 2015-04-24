@@ -1,7 +1,8 @@
 <?php
 /* @var $this yii\web\View */
 //http://forum.ru-board.com/topic.cgi?forum=31&topic=19256
-$this->title = 'Галерея';
+$this->title = 'Галерея
+';
 ?>
 <div class="site-index">
 
@@ -9,6 +10,21 @@ $this->title = 'Галерея';
         <h1>Галерея</h1>
         <p class="lead">рисунки canvas</p>
     </div>
+
+    <a class="gallery" href="/pictures/39-zcdK5DrJa-CG74kuI1IT8wJz9DmIn3RK.png"><img src="/pictures/tn-39-zcdK5DrJa-CG74kuI1IT8wJz9DmIn3RK.png" width="160" height="128" alt=""/></a>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            $('.gallery').fancybox({
+                openEffect  : 'none',
+                closeEffect : 'none',
+                helpers : {
+                    media : {}
+                }
+            });
+        }
+    </script>
+
 
     <div class="jumbotron">
         <h1>Тестовое задание</h1>

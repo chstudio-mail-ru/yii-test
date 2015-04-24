@@ -20,9 +20,12 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/paint.css',
+        'css/jquery.fancybox.css',
     ];
     public $js = [
-        'js/paint.js',
+        'js/gallery.js',
+        'js/jquery.fancybox.pack.js',
+        'js/jquery.mousewheel-3.0.6.pack.js ',
     ];
     public $depends = [
         'yii\web\YiiAsset',

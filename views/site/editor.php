@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </canvas>
 
     <?php $form = ActiveForm::begin([
-        'id' => 'register-form',
+        'id' => 'registerform',
         'options' => ['class' => 'form-horizontal'],
         'fieldConfig' => [
             'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",

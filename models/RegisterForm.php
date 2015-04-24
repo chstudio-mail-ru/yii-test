@@ -27,32 +27,14 @@ class RegisterForm extends Model
             [['useremail', 'password', 'password_repeat', 'username'], 'required'],
             // useremail should be a valid email address
             ['useremail', 'email'],
-            // useremail is validated by validateuseremail()
-            ['useremail', 'validateUseremail'],
+            // verify existing useremail
+            ['useremail', 'app\components\StatusValidator'],
             // password_repeat === password 
             ['password_repeat', 'compare', 'compareAttribute' => 'password'],
         ];
     }
 
-    /**
-     * Validates the useremail.
-     * This method serves as the inline validation for existing user.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
-     */
-    public function validateUseremail($attribute, $params)
-    {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
-
-            if ($user) {
-                $this->addError($attribute, 'Пользователь с логином '.$this->useremail.' уже существует.');
-            }
-        }
-    }
-
-    /**
+   /**
      * Finds user by [[useremail]]
      *
      * @return User|null

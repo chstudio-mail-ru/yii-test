@@ -173,3 +173,20 @@ if(window.addEventListener) {
         });
     }
 
+    /*
+    $('#registerform').on('beforeValidate',  function (event, messages, deferreds) {
+        // Вызывается до валидации всей формы сразу после нажатия submit.
+        // Тут можно провести дополнительные проверки.
+        //alert($('#registerform-useremail').val());
+
+        $.ajax({
+            url: '/index.php/site/validate/',
+            type: 'POST',
+            data: {'email': $('#registerform-useremail').val()},
+            success: function(data) {
+                //alert(data);
+            }
+        });
+
+        return false;
+    });*/

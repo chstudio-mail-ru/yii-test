@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\RegisterForm;
 use app\models\Save;
+use app\models\Gallery;
 //use app\models\ContactForm;
 
 class SiteController extends Controller
@@ -52,7 +53,10 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new Gallery();
+        return $this->render('index', [
+            'model' => $model,
+        ]);
     }
 
     public function actionLogin()
@@ -78,28 +82,6 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    //removed
-    /*public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }*/
-
-    //removed
-    /*public function actionAbout()
-    {
-        return $this->render('about');
-    }*/
-
-    //added
     public function actionEditor()
     {
         //was pressed Save button
@@ -107,6 +89,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
+        //was pressed Register button
         $model = new RegisterForm();
 
         if($model->load(\Yii::$app->request->post()) && $model->register()) {
