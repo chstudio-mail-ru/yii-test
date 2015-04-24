@@ -93,14 +93,6 @@ class Save
         $user_id = \Yii::$app->user->identity->id;
         $file_name = self::$session->get('last_file_name');
 
-        $connection = \Yii::$app->db;
-        $command = $connection->createCommand()
-                                    ->insert('image_list', [
-                                        'userId' => $user_id,
-                                        'imageName' => $file_name,
-                                    ]);
-        $command->execute();
-
 		//rename file from $file_tmp to $file_name
 		if(file_exists("./pictures/".self::$session->get('last_file_name')))
 		{
@@ -122,6 +114,15 @@ class Save
 			{
 				$this->makeThumb($file_name);
 			}
+
+	        //save to DB
+	        $connection = \Yii::$app->db;
+	        $command = $connection->createCommand()
+	                                    ->insert('image_list', [
+	                                        'userId' => $user_id,
+	                                        'imageName' => $file_name,
+	                                    ]);
+	        $command->execute();
 		}
 		else
 		{

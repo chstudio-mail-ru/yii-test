@@ -11,7 +11,27 @@ $this->title = 'Галерея
         <p class="lead">рисунки canvas</p>
     </div>
 
-    <a class="gallery" href="/pictures/39-zcdK5DrJa-CG74kuI1IT8wJz9DmIn3RK.png"><img src="/pictures/tn-39-zcdK5DrJa-CG74kuI1IT8wJz9DmIn3RK.png" width="160" height="128" alt=""/></a>
+    <?php
+   /*
+                   'user_id' => $arr['userId'],
+                   'author_name' => $arr['username'],
+                   'img_name' => $arr['imageName'],
+                   'thumb_name' => "tn-".$arr['imageName'],
+                   'create_time' => $arr['createTime'],
+                   'edit_link' => '<a href="">редактировать</a>',
+   */
+        foreach(app\models\Gallery::$gallery as $arr)
+        {
+            echo '<div class="image">
+<a class="gallery" href="/pictures/'.$arr['img_name'].'"><img src="/pictures/'.$arr['thumb_name'].'" width="160" height="128" alt=""/></a>            
+            ';
+            echo '<br />'.$arr['create_time'];
+            echo '<br />Автор: '.$arr['author_name'];
+            echo isset($arr['edit_link'])? '<br />'.$arr['edit_link'] : null;
+            echo isset($arr['delete_link'])? '<br />'.$arr['delete_link'] : null;
+            echo '</div>';
+        }
+    ?>
 
     <script type="text/javascript">
         window.onload = function() {
@@ -25,6 +45,8 @@ $this->title = 'Галерея
         }
     </script>
 
+    <div class="clear">
+    </div>
 
     <div class="jumbotron">
         <h1>Тестовое задание</h1>
