@@ -4,18 +4,37 @@ namespace app\models;
 
 use yii\base\Model;
 use app\models\Save;
+use yii\db\Query;
 
 /**
- * RegisterForm is the model behind the register form under paint rectangle.
+ * EditPicture is the model for edit picture in paint rectangle and register form under paint rectangle.
  */
-class RegisterForm extends Model
+class EditPicture extends Model
 {
     public $useremail;
     public $password;
     public $password_repeat;
     public $username;
+    public $user_id;
+    public $picture_id;
+    public $picture;
 
     private $_user = false;
+
+    public function __construct()
+    {
+        if(!\Yii::$app->user->isGuest)
+        {
+            $this->user_id = \Yii::$app->user->id;
+            $this->picture_id = isset(\Yii::$app->request->get()['id'])? \Yii::$app->request->get ()['id'] : 0;
+
+            //verification privilegies to edit this picture
+            if($this->picture_id > 0)
+            {
+                $this->picture = Picture::find()->select('*')->where(['id' => $this->picture_id])->one();
+            }
+        }
+    }
 
     /**
      * @return array the validation rules.

@@ -4,9 +4,6 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\db\Query;
-use yii\web\DbSession;
-use yii\base\ErrorException;
-
 /**
  * Gallery is the model on Index page.
  */
@@ -19,7 +16,7 @@ class Gallery extends Model
         $query = new Query();
 
         //SELECT * FROM `user_list` LEFT JOIN `image_list` ON user_list.id = image_list.userId WHERE image_list.imageName<>''
-        $rows = $query->select(['*'])
+        $rows = $query->select('*')
                      ->from('user_list')
                      ->leftJoin('image_list', 'user_list.id=image_list.userId')
                      ->where('image_list.imageName<>\'\'')
@@ -32,18 +29,20 @@ class Gallery extends Model
             if(isset(\Yii::$app->user->identity->id) && $arr['userId'] === \Yii::$app->user->identity->id)
             {
                 self::$gallery[] = [
+                    'img_id' => $arr['id'],
                     'user_id' => $arr['userId'],
                     'author_name' => $arr['username'],
                     'img_name' => $arr['imageName'],
                     'thumb_name' => "tn-".$arr['imageName'],
                     'create_time' => $date->format("d.m.Y H:i:s"),
-                    'edit_link' => '<a href="">редактировать</a>',
-                    'delete_link' => '<a href="">удалить</a>',
+                    'edit_link' => '<a href="/site/editor/?id='.$arr['id'].'")">редактировать</a>',
+                    'delete_link' => '<a href="javascript:void(0)" onclick="deletePicture('.$arr['userId'].', '.$arr['id'].');">удалить</a>',
                ];
             }
             else
             {
                 self::$gallery[] = [
+                    'img_id' => $arr['id'],
                     'user_id' => $arr['userId'],
                     'author_name' => $arr['username'],
                     'img_name' => $arr['imageName'],

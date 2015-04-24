@@ -22,7 +22,7 @@ $this->title = 'Галерея
    */
         foreach(app\models\Gallery::$gallery as $arr)
         {
-            echo '<div class="image">
+            echo '<div class="picture">
 <a class="gallery" href="/pictures/'.$arr['img_name'].'"><img src="/pictures/'.$arr['thumb_name'].'" width="160" height="128" alt=""/></a>            
             ';
             echo '<br />'.$arr['create_time'];

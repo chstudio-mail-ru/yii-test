@@ -90,7 +90,8 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
-.image {
+.picture {
+    margin-right: 20px;
     float: left;
 }
 

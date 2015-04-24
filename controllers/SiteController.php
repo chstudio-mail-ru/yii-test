@@ -7,7 +7,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\RegisterForm;
+use app\models\EditPicture;
 use app\models\Save;
 use app\models\Gallery;
 //use app\models\ContactForm;
@@ -82,19 +82,23 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function actionEditor()
+    public function actionEditor($id=0)
     {
         //was pressed Save button
-        if(isset(\Yii::$app->request->post()['save-button'])) {
+        if(isset(\Yii::$app->request->post()['save-button']))
+        {
             return $this->goHome();
         }
 
         //was pressed Register button
-        $model = new RegisterForm();
+        $model = new EditPicture();
 
-        if($model->load(\Yii::$app->request->post()) && $model->register()) {
+        if($model->load(\Yii::$app->request->post()) && $model->register())
+        {
             return $this->goHome();
-        } else {
+        } 
+        else
+        {
             return $this->render('editor', [
                 'model' => $model,
             ]);
@@ -105,6 +109,15 @@ class SiteController extends Controller
     public function actionSave()
     {
         $model = new Save();
-        $model->save(\Yii::$app->request->post()['user_id']);
+        
+        switch(\Yii::$app->request->post()['action'])
+        {
+            case "save":
+                $model->save();
+                break;
+            case "delete":
+                $model->delete();
+                break;
+        }
     }
 }

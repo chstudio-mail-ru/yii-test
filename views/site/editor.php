@@ -33,11 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
 	        if(!\Yii::$app->user->isGuest)
 	        {
 	        	$user_id = \Yii::$app->user->id;
-	        }	
+	        	$picture_id = isset(\Yii::$app->request->get()['id'])? \Yii::$app->request->get ()['id'] : 0;
+	        }
 
 	        if(\Yii::$app->user->isGuest)
 	        {
-				echo Html::submitButton('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "canvasSave(0);"]);
+				echo Html::submitButton('Сохранить + Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button', 'onClick' => "canvasSave(0, 0);"]);
 				?>
 				<div class="register-fields">
 				<?php
@@ -52,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	        else
 	        {
 	        	$file_name = $user_id."-".\Yii::$app->getSecurity()->generateRandomString().".png";
-				echo Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'save-button', 'onClick' => "canvasSave(".$user_id.");"]);
+				echo Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'save-button', 'onClick' => "canvasSave(".$user_id.", ".$picture_id.");"]);
 	        }
 		?>
     </div>

@@ -9,7 +9,7 @@ use yii\base\ErrorException;
 //use yii\filters\AccessControl;
 
 /**
- * Save class for AJAX save pictures.
+ * Save class for AJAX save/delete pictures.
  */
 class Save
 {
@@ -56,30 +56,33 @@ class Save
 			$file_name = "g-".self::$session->getId().".png";
 		}
 
-		$pic = explode(',',\Yii::$app->request->post()['data']);
-		$pic = str_replace(' ','+',$pic[1]);
-		$pic = base64_decode($pic);
-
-		$size = file_put_contents("./pictures/".$file_name, $pic);
-
-		self::$session->set('last_file_name', $file_name);
-
-		//if save file for authorized user, add record tu DB and delete temporary file (g-session_id().png)
-		if(isset($user_id) && $size > 0)
+		if(isset(\Yii::$app->request->post()['data']))
 		{
-	        $connection = \Yii::$app->db;
-	        $command = $connection->createCommand()
-	                                    ->insert('image_list', [
-	                                        'userId' => $user_id,
-	                                        'imageName' => $file_name,
-	                                    ]);
-	        $command->execute();
+			$pic = explode(',',\Yii::$app->request->post()['data']);
+			$pic = str_replace(' ','+',$pic[1]);
+			$pic = base64_decode($pic);
 
-	        $this->makeThumb($file_name);
-		}
-		elseif($size == 0)
-		{
-			throw new ErrorException("File can't saved in ./pictures/".$file_name);
+			$size = file_put_contents("./pictures/".$file_name, $pic);
+
+			self::$session->set('last_file_name', $file_name);
+
+			//if save file for authorized user, add record tu DB and delete temporary file (g-session_id().png)
+			if(isset($user_id) && $size > 0)
+			{
+		        $connection = \Yii::$app->db;
+		        $command = $connection->createCommand()
+		                                    ->insert('image_list', [
+		                                        'userId' => $user_id,
+		                                        'imageName' => $file_name,
+		                                    ]);
+		        $command->execute();
+
+		        $this->makeThumb($file_name);
+			}
+			elseif($size == 0)
+			{
+				throw new ErrorException("File can't saved in ./pictures/".$file_name);
+			}
 		}
 	}
 
@@ -171,4 +174,38 @@ class Save
 			throw new ErrorException("File not exists ./pictures/".$file_name);
 		}
 	}
+
+
+	public function delete()
+	{
+		if(isset(\Yii::$app->request->post()['picture_id']) && intval(\Yii::$app->request->post()['picture_id']) > 0)
+		{
+			//verify authorization of user
+			if(\Yii::$app->request->post()['user_id'] === \Yii::$app->user->identity->id)
+			{
+				$this->_user = User::findIdentity(\Yii::$app->request->post()['user_id']);
+				$user_id = \Yii::$app->user->identity->id;
+				$picture_id = \Yii::$app->request->post()['picture_id'];
+
+		        $query = new Query();
+
+		        //get picture info from DB
+		        $row = $query->select('*')
+		                     ->from('image_list')
+		                     ->where(['id' => $picture_id])
+		                     ->one();
+		                     
+		        //delete from server
+		        @unlink("./pictures/".$row['imageName']);
+		        @unlink("./pictures/tn-".$row['imageName']);
+
+		        //delete from DB
+		        $connection = \Yii::$app->db;
+		        $command = $connection->createCommand()
+		                            ->delete('image_list', ['id' => $picture_id]);
+		        $command->execute();
+
+			}
+		}
+	}	
 }

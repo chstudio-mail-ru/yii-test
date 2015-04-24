@@ -43,7 +43,13 @@ $config = [
             ],
         ],
         'urlManager' => [
+            'showScriptName' => false,
             'enablePrettyUrl' => true,
+            /*'rules' => [
+                '<module:\w+>' => '<module>/editor',
+                '<module:\w+>/<editor>' => '<module>/view',
+                '<module:\w+>/editor/<id:\d+>' => '<module>/edit',
+            ],*/
         ],
         'db' => require(__DIR__ . '/db.php'),
     ],

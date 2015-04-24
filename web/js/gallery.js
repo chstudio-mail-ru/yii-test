@@ -139,7 +139,7 @@ if(window.addEventListener) {
     }
 
     //Сохранение картинки
-    function canvasSave(user_id) {
+    function canvasSave(user_id, picture_id) {
         // Находим canvas элемент
         canvas = document.getElementById('imageView');
 
@@ -162,13 +162,55 @@ if(window.addEventListener) {
 
         img = canvas.toDataURL("image/png");
 
-        //сохраняем AJAX'ом - '/index.php/site/save/'
+        //сохраняем AJAX'ом - '/site/save/'
         $.ajax({
-            url: '/index.php/site/save/',
+            url: '/site/save/',
             type: 'POST',
-            data: {'data': img, 'user_id': user_id},
+            data: {'data': img, 'action': 'save', 'user_id': user_id, 'picture_id': picture_id},
             success: function(data) {
                 //alert(data);
+            }
+        });
+    }
+
+    //Загрузка картинки
+    function canvasLoad(picture_name) {
+        // Находим canvas элемент
+        canvas = document.getElementById('imageView');
+
+        if (!canvas) {
+            //нет canvas элемента
+            return;
+        }
+
+        if (!canvas.getContext) {
+            alert('Ошибка: canvas.getContext не существует!');
+            return;
+        }
+
+        // Получаем 2D canvas context.
+        context = canvas.getContext('2d');
+        if (!context) {
+            alert('Ошибка: getContext(\'2d\')! не существует');
+            return;
+        }
+
+        pic = new Image(); // "Создаём" изображение
+        pic.src = '/pictures/' + picture_name;  //Источник изображения
+        pic.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение
+            canvas.drawImage(pic, 0, 0);  // Рисуем изображение от точки с координатами 0, 0
+        }
+    }
+
+    //Удаление картинки
+    function deletePicture(user_id, picture_id) {
+        //alert('delete pic '+picture_id+' by user '+user_id);
+        $.ajax({
+            url: '/site/save/',
+            type: 'POST',
+            data: {'action': 'delete', 'user_id': user_id, 'picture_id': picture_id},
+            success: function(data) {
+                location.href='/';
             }
         });
     }
@@ -180,7 +222,7 @@ if(window.addEventListener) {
         //alert($('#registerform-useremail').val());
 
         $.ajax({
-            url: '/index.php/site/validate/',
+            url: '/site/validate/',
             type: 'POST',
             data: {'email': $('#registerform-useremail').val()},
             success: function(data) {
