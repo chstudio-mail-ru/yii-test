@@ -90,7 +90,6 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        //was pressed Register button
         $model = new EditPicture();
 
         if($model->load(\Yii::$app->request->post()) && $model->register())

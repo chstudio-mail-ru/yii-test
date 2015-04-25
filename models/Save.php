@@ -36,13 +36,31 @@ class Save
 				$this->_user = User::findIdentity(\Yii::$app->request->post()['user_id']);
 				$user_id = \Yii::$app->user->identity->id;
 				
-				//generate unique file_name
-				do
+				//if $_POST['picture_id'] < 1
+				if(isset(\Yii::$app->request->post()['picture_id']) && \Yii::$app->request->post()['picture_id'] < 1)
 				{
-					//file_name for authorized users
-					$file_name = $user_id."-".\Yii::$app->getSecurity()->generateRandomString().".png";
+					//generate unique file_name
+					do
+					{
+						//file_name for authorized users
+						$file_name = $user_id."-".\Yii::$app->getSecurity()->generateRandomString().".png";
+					}
+					while(file_exists("./pictures/".$file_name));
 				}
-				while(file_exists("./pictures/".$file_name));
+				else
+				{
+			        $picture_id = \Yii::$app->request->post()['picture_id'];
+			        $query = new Query();
+
+			        //get picture info from DB
+			        $row = $query->select('*')
+			                     ->from('image_list')
+			                     ->where(['id' => $picture_id])
+			                     ->one();
+
+			        //file_name edited picture
+			        $file_name = $row['imageName'];
+				}	
 			}
 			else
 			{
@@ -66,8 +84,8 @@ class Save
 
 			self::$session->set('last_file_name', $file_name);
 
-			//if save file for authorized user, add record tu DB and delete temporary file (g-session_id().png)
-			if(isset($user_id) && $size > 0)
+			//if save file for authorized user, if not set $picture_id, add record tu DB
+			if(isset($user_id) && !isset($picture_id) && $size > 0)
 			{
 		        $connection = \Yii::$app->db;
 		        $command = $connection->createCommand()
@@ -78,6 +96,10 @@ class Save
 		        $command->execute();
 
 		        $this->makeThumb($file_name);
+			}
+			elseif(isset($user_id) && isset($picture_id) && $size > 0)
+			{
+				$this->makeThumb($file_name);
 			}
 			elseif($size == 0)
 			{

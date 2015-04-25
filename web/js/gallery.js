@@ -174,7 +174,7 @@ if(window.addEventListener) {
     }
 
     //Загрузка картинки
-    function canvasLoad(picture_name) {
+    function canvasLoad(picture_name, picture_id) {
         // Находим canvas элемент
         canvas = document.getElementById('imageView');
 
@@ -198,7 +198,7 @@ if(window.addEventListener) {
         pic = new Image(); // "Создаём" изображение
         pic.src = '/pictures/' + picture_name;  //Источник изображения
         pic.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение
-            canvas.drawImage(pic, 0, 0);  // Рисуем изображение от точки с координатами 0, 0
+            context.drawImage(pic, 0, 0);  // Рисуем изображение от точки с координатами 0, 0
         }
     }
 

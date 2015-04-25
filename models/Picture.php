@@ -9,6 +9,8 @@ use yii\db\ActiveRecord;
  */
 class Picture extends ActiveRecord
 {
+	public $picture_id;
+	
 	public static function tableName()
     {
         return 'image_list';

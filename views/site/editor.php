@@ -4,7 +4,7 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\RegisterForm */
+/* @var $model app\models\EditPicture */
 
 $this->title = 'Редактор рисунков';
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,7 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
     Ваш браузер не поддерживает рисование мышью.
 </p>
 </canvas>
-
+<?php
+	if(isset($model->picture->imageName))
+	{
+		//setTimeout(...) - wait for loading all needed JS scripts
+		echo "<script type=\"text/javascript\">window.onload = setTimeout(\"canvasLoad('".$model->picture->imageName."')\", 100);</script>";
+	}
+?>
     <?php $form = ActiveForm::begin([
         'id' => 'registerform',
         'options' => ['class' => 'form-horizontal'],
@@ -52,7 +58,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	        }
 	        else
 	        {
-	        	$file_name = $user_id."-".\Yii::$app->getSecurity()->generateRandomString().".png";
 				echo Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'save-button', 'onClick' => "canvasSave(".$user_id.", ".$picture_id.");"]);
 	        }
 		?>
