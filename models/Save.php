@@ -80,26 +80,62 @@ class Save
 			$pic = str_replace(' ','+',$pic[1]);
 			$pic = base64_decode($pic);
 
-			$size = file_put_contents("./pictures/".$file_name, $pic);
-
-			self::$session->set('last_file_name', $file_name);
-
-			//if save file for authorized user, if not set $picture_id, add record tu DB
-			if(isset($user_id) && !isset($picture_id) && $size > 0)
+			//if save file for authorized user, if not set $picture_id, add record to DB
+			if(isset($user_id) && !isset($picture_id))
 			{
-		        $connection = \Yii::$app->db;
-		        $command = $connection->createCommand()
-		                                    ->insert('image_list', [
-		                                        'userId' => $user_id,
-		                                        'imageName' => $file_name,
-		                                    ]);
-		        $command->execute();
+				$size = file_put_contents("./pictures/".$file_name, $pic);
 
-		        $this->makeThumb($file_name);
-			}
-			elseif(isset($user_id) && isset($picture_id) && $size > 0)
+				if($size > 0)
+				{
+					self::$session->set('last_file_name', $file_name);
+
+
+			        $connection = \Yii::$app->db;
+			        $command = $connection->createCommand()
+			                                    ->insert('image_list', [
+			                                        'userId' => $user_id,
+			                                        'imageName' => $file_name,
+			                                    ]);
+			        $command->execute();
+
+			        $this->makeThumb($file_name);
+				}
+			} //else if change file_name for update cache, save file and update record in DB
+			elseif(isset($user_id) && isset($picture_id))
 			{
-				$this->makeThumb($file_name);
+
+				//save old file name
+				$old_file_namame = $file_name;
+
+				//generate new unique file_name
+				do
+				{
+					//file_name for authorized users
+					$file_name = $user_id."-".\Yii::$app->getSecurity()->generateRandomString().".png";
+				}
+				while(file_exists("./pictures/".$file_name));
+				
+				$size = file_put_contents("./pictures/".$file_name, $pic);
+				if($size > 0)
+				{
+					$this->makeThumb($file_name);
+
+			        $connection = \Yii::$app->db;
+			        $command = $connection->createCommand()
+			                                    ->update('image_list',
+			                                    	['imageName' => $file_name],
+			                                    	['id' => $picture_id]
+			                                    );
+			        $command->execute();
+
+					//deleting old files
+					@unlink("./pictures/".$old_file_namame);
+					@unlink("./pictures/tn-".$old_file_namame);
+				}
+				elseif($size == 0)
+				{
+					throw new ErrorException("File can't saved in ./pictures/".$file_name);
+				}
 			}
 			elseif($size == 0)
 			{

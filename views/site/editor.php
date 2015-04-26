@@ -11,6 +11,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h1><?= Html::encode($this->title) ?></h1>
+<?php 
+	echo isset($model->username)? "<h4>Автор: ".$model->username."</h4>\n" : null;
+?>
 <canvas id="imageView" width="500" height="400">
 <p>
     Ваш браузер не поддерживает рисование мышью.

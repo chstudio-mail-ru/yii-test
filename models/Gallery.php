@@ -31,7 +31,7 @@ class Gallery extends Model
                 self::$gallery[] = [
                     'img_id' => $arr['id'],
                     'user_id' => $arr['userId'],
-                    'author_name' => $arr['username'],
+                    'author_name' => strlen($arr['username']) > 14 ? substr($arr['username'], 0, 14)."..." : $arr['username'],
                     'img_name' => $arr['imageName'],
                     'thumb_name' => "tn-".$arr['imageName'],
                     'create_time' => $date->format("d.m.Y H:i:s"),
@@ -44,7 +44,7 @@ class Gallery extends Model
                 self::$gallery[] = [
                     'img_id' => $arr['id'],
                     'user_id' => $arr['userId'],
-                    'author_name' => $arr['username'],
+                    'author_name' => strlen($arr['username']) > 14 ? substr($arr['username'], 0, 14)."..." : $arr['username'],
                     'img_name' => $arr['imageName'],
                     'thumb_name' => "tn-".$arr['imageName'],
                     'create_time' => $date->format("d.m.Y H:i:s"),

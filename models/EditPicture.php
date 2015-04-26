@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 use app\models\Save;
+use app\models\User;
 use yii\db\Query;
 
 /**
@@ -32,6 +33,8 @@ class EditPicture extends Model
             if($this->picture_id > 0)
             {
                 $this->picture = Picture::find()->select('*')->where(['id' => $this->picture_id])->one();
+                $user = User::findIdentity($this->user_id);
+                $this->username = $user->username;
             }
         }
     }
