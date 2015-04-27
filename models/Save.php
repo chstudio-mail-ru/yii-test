@@ -154,9 +154,8 @@ class Save
 				                                        'imageName' => $file_name,
 				                                    ]);
 				        $command->execute();
+				        $this->makeThumb($file_name);
 			        }
-
-			        $this->makeThumb($file_name);
 				}
 			}	
 		}
