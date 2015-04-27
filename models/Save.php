@@ -145,14 +145,16 @@ class Save
 				{
 					self::$session->set('last_file_name', $file_name);
 
-
-			        $connection = \Yii::$app->db;
-			        $command = $connection->createCommand()
-			                                    ->insert('image_list', [
-			                                        'userId' => $user_id,
-			                                        'imageName' => $file_name,
-			                                    ]);
-			        $command->execute();
+			        if(isset($user_id))
+			        {
+				        $connection = \Yii::$app->db;
+				        $command = $connection->createCommand()
+				                                    ->insert('image_list', [
+				                                        'userId' => $user_id,
+				                                        'imageName' => $file_name,
+				                                    ]);
+				        $command->execute();
+			        }
 
 			        $this->makeThumb($file_name);
 				}
