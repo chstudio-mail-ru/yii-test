@@ -215,6 +215,24 @@ if(window.addEventListener) {
         });
     }
 
+    //показать имя автора целиком
+    function show_author(author_name, div_id) {
+        if(author_name.length > 0)
+        {
+            div = document.getElementById('pic_'+div_id);
+            div.innerHTML = author_name;
+        }
+    }
+
+    //скрыть полное имя автора
+    function hide_author(author_name_crop, div_id) {
+        if(author_name_crop.length > 0)
+        {
+            div = document.getElementById('pic_'+div_id);
+            div.innerHTML = 'Автор: '+author_name_crop;
+        }
+    }
+
     /*
     $('#registerform').on('beforeValidate',  function (event, messages, deferreds) {
         // Вызывается до валидации всей формы сразу после нажатия submit.

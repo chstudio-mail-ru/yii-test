@@ -25,10 +25,10 @@ $this->title = 'Галерея
             echo '<div class="picture">
 <a class="gallery" href="/pictures/'.$arr['img_name'].'"><img src="/pictures/'.$arr['thumb_name'].'" width="160" height="128" alt=""/></a>            
             ';
-            echo '<br />'.$arr['create_time'];
-            echo '<br />Автор: '.$arr['author_name'];
-            echo isset($arr['edit_link'])? '<br />'.$arr['edit_link'] : null;
-            echo isset($arr['delete_link'])? '<br />'.$arr['delete_link'] : null;
+            echo '<div>'.$arr['create_time'].'</div>';
+            echo '<div id="pic_'.$arr['img_id'].'" onmouseover="show_author(\''.$arr['author_name_full'].'\', '.$arr['img_id'].')"  onmouseout="hide_author(\''.$arr['author_name_crop'].'\', '.$arr['img_id'].')">Автор: '.$arr['author_name_crop'].'</div>';
+            echo isset($arr['edit_link'])? '<div>'.$arr['edit_link'].'</div>' : null;
+            echo isset($arr['delete_link'])? '<div>'.$arr['delete_link'].'</div>' : null;
             echo '</div>';
         }
     ?>
