@@ -102,6 +102,7 @@ class EditPicture extends Model
 
                 //save picture and rename file picture after registration and authentication
                 $save = new Save();
+                $save->save();
                 $save->set_author_picture();
 
                 return true;

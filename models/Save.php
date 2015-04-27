@@ -137,10 +137,26 @@ class Save
 					throw new ErrorException("File can't saved in ./pictures/".$file_name);
 				}
 			}
-			elseif($size == 0)
-			{
-				throw new ErrorException("File can't saved in ./pictures/".$file_name);
-			}
+			else
+			{	
+				$size = file_put_contents("./pictures/".$file_name, $pic);
+
+				if($size > 0)
+				{
+					self::$session->set('last_file_name', $file_name);
+
+
+			        $connection = \Yii::$app->db;
+			        $command = $connection->createCommand()
+			                                    ->insert('image_list', [
+			                                        'userId' => $user_id,
+			                                        'imageName' => $file_name,
+			                                    ]);
+			        $command->execute();
+
+			        $this->makeThumb($file_name);
+				}
+			}	
 		}
 	}
 
